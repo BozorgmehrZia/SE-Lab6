@@ -1,6 +1,7 @@
 package MiniJava.scanner;
 
 import MiniJava.errorHandler.ErrorHandler;
+import MiniJava.scanner.token.FacadeToken;
 import MiniJava.scanner.token.Token;
 import MiniJava.scanner.type.Type;
 
@@ -9,6 +10,7 @@ import java.util.regex.Pattern;
 
 public class lexicalAnalyzer {
     private Matcher matcher;
+    private FacadeToken facadeToken;
 
     public lexicalAnalyzer(java.util.Scanner sc) {
         StringBuilder input = new StringBuilder();
@@ -20,6 +22,7 @@ public class lexicalAnalyzer {
             tokenPattern.append(String.format("|(?<%s>%s)", tokenType.name(), tokenType.pattern));
         Pattern expression = Pattern.compile(tokenPattern.substring(1));
         matcher = expression.matcher(input.toString());
+        facadeToken = new FacadeToken();
     }
 
     public Token getNextToken() {
@@ -37,7 +40,7 @@ public class lexicalAnalyzer {
                         break;
                     }
 
-                    return new Token(t, matcher.group(t.name()));
+                    return facadeToken.createToken(t, matcher.group(t.name()));
                 }
             }
         }

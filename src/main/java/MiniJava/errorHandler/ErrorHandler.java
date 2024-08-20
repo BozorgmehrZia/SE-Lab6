@@ -5,10 +5,27 @@ package MiniJava.errorHandler;
  */
 
 public class ErrorHandler {
-    public static boolean hasError = false;
+    private static boolean hasError = false;
+
+    public static boolean getHasError() {
+        return hasError;
+    }
+
+    public static void setHasError(boolean errorState) {
+        hasError = errorState;
+    }
+
+    public static void setError() {
+        setHasError(true);
+    }
+
+    public static boolean hasError() {
+        return getHasError();
+    }
 
     public static void printError(String msg) {
-        hasError = true;
+        setError();
         System.out.println(msg);
     }
 }
+
