@@ -43,4 +43,13 @@ public class Node implements Comparable<Node> {
     public int compareTo(Node o) {
         return o.hashCode() - hashCode();
     }
+
+    public boolean hasEdgeTo(Node dest){
+        for (Edge edge : edges) {
+            if (edge.getNodes().contains(dest)){
+                return true;
+            }
+        }
+        return false;
+    }
 }
