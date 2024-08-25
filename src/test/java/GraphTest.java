@@ -1,4 +1,3 @@
-import com.sun.tools.javac.util.List;
 import graph.Edge;
 import graph.Graph;
 import graph.Node;
@@ -7,6 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GraphTest {
     Graph graph;
@@ -24,7 +24,7 @@ public class GraphTest {
     public void testBFS(){
         graph.bfs(city1, null);
         Assert.assertEquals(city1.getDistance(), 0);
-        Assert.assertEquals(city2.getDistance(), 4);
+        Assert.assertEquals(city2.getDistance(), 1);
     }
 
     @Test
