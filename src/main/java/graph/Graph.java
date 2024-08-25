@@ -1,6 +1,8 @@
 package graph;
 
 import lombok.Getter;
+import lombok.Setter;
+import org.javatuples.Pair;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -11,6 +13,9 @@ import java.util.stream.Collectors;
 public class Graph {
     @Getter
     private ArrayList<Node> graph;
+    @Getter
+    @Setter
+    private TransportStrategy transportStrategy;
 
     public Graph(ArrayList<Node> graph) {
         this.graph = graph;
@@ -21,8 +26,19 @@ public class Graph {
             v.setVisited(false);
     }
 
-    public void bfs(Node s) {
+    public void resetDistances(){
+        for(Node v : this.getGraph()){
+            v.setDistance(Integer.MAX_VALUE);
+        }
+    }
+
+    public void bfs(Node s, Node hated) {
         this.resetVisits();
+         if (hated != null) {
+             hated.setVisited(true);
+         }
+        this.resetDistances();
+         s.setDistance(0);
 
         Queue<Pair<Node, Integer>> nodes = new LinkedList<>();
         nodes.add(new Pair<Node, Integer>(s, 0));
@@ -41,8 +57,14 @@ public class Graph {
         }
     }
 
-    public void dijkstra(Node s) {
+    public void dijkstra(Node s, Node hated) {
         this.resetVisits();
+
+        if (hated != null){
+            hated.setVisited(true);
+        }
+        this.resetDistances();
+        s.setDistance(0);
 
         PriorityQueue<Pair<Integer, Node>> nodes = new PriorityQueue<>();
         nodes.add(new Pair<Integer, Node>(0, s));
@@ -59,6 +81,19 @@ public class Graph {
                                 neighbor.getValue0()))
                         .collect(Collectors.toCollection(PriorityQueue::new)));
             }
+        }
+    }
+
+    public TransportStrategy getFastestStrategy(Node fromCity, Node toCity, int trainTimeUnit){
+        BusStrategy busStrategy = new BusStrategy();
+        TrainStrategy trainStrategy = new TrainStrategy();
+        trainStrategy.setTimeUnit(trainTimeUnit);
+        int busTime = busStrategy.calculateDistance(fromCity, toCity,null, this);
+        int trainTime = trainStrategy.calculateDistance(fromCity, toCity,null, this);
+        if  (busTime > trainTime) {
+            return trainStrategy;
+        }else {
+            return busStrategy;
         }
     }
 
