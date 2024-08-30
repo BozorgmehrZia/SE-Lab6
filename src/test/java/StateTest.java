@@ -31,5 +31,4 @@ public class StateTest {
         nonDirectionalState.togglingDirections(graph);
         Assert.assertFalse(city1.getEdges().get(0).isDirected());
     }
-
 }

@@ -67,6 +67,4 @@ public class StrategyTest {
         Assert.assertEquals(distance, 1);
     }
 
-
-
 }
